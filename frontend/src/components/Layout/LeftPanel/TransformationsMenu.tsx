@@ -5,13 +5,13 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { MoreVert } from "@mui/icons-material";
 import ArrowDropDownCircleIcon from "@mui/icons-material/ArrowDropDownCircle";
-import TransformationPanel from "./TransformationPanel";
+
 interface Props {
   menuItems: string[];
-  onItemClick:(string:string)=>void;
+  onItemClick: (string: string) => void;
 }
 
-export default function TransformationsMenu({ menuItems,onItemClick }: Props) {
+export default function TransformationsMenu({ menuItems, onItemClick }: Props) {
   const MAX_HEIGHT = 40;
   const [menuState, menuStateChanger] = useState<null | HTMLElement>(null);
   const [menuSelectedItem, menuSelectedItemChanger] = useState<string>("");
@@ -35,8 +35,9 @@ export default function TransformationsMenu({ menuItems,onItemClick }: Props) {
         aria-haspopup="true"
         onClick={handleClick}
         color="primary"
+        
       >
-        Select the transformation!
+        Select a transformation!
       </Button>
       <Menu
         id="long-menu"
@@ -58,10 +59,9 @@ export default function TransformationsMenu({ menuItems,onItemClick }: Props) {
             key={item}
             selected={menuSelectedItem === item}
             onClick={() => {
-              
               menuSelectedItemChanger(item);
               handleClose();
-              onItemClick(item)
+              onItemClick(item);
             }}
           >
             {item}
