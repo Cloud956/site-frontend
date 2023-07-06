@@ -4,7 +4,7 @@ import bibi from "./images/bibi.jpg";
 import { useState } from "react";
 import MainPageBox from "./components/MainPageBox";
 import MainPage from "./components/MainPage";
-import ImageBox from "./components/ImageBox";
+import ImageBox from "./components/Layout/RightSide/ImageBox";
 import "./App.css";
 function App() {
   const mainPageBox = MainPageBox();

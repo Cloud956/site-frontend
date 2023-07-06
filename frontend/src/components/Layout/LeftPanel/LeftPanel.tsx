@@ -39,10 +39,10 @@ let TextMap = new Map<string, string>([
   ["nothing", "Please select a transformation!"],
 ]);
 let InputStackMap = new Map<string, string[]>([
-  ["TO_RGB", ["first", "second"]],
-  ["OTHER", ["first"]],
-  ["FUCK", ["first", "second", "third"]],
-  ["nothing", []],
+  ["TO_RGB", ["fiwrst", "sesscond", ""]],
+  ["OTHER", ["firsst", "", ""]],
+  ["FUCK", ["firdst", "secodnd", "thired"]],
+  ["nothing", ["", "", ""]],
 ]);
 function isString(value: unknown): value is string {
   return typeof value === "string";

@@ -15,9 +15,14 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const InputStack = ({ titles }: Props) => {
-  const items = titles?.map((item: string) => (
-    <Item key={item}>
-      <TextField id="outlined-basic" label={item} variant="outlined" />
+  const items = titles?.map((item: string, index: number) => (
+    <Item key={item + index.toString()}>
+      <TextField
+        id="outlined-basic"
+        label={item}
+        variant="filled"
+        disabled={item.length === 0}
+      />
     </Item>
   ));
   return (
