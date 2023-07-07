@@ -1,11 +1,12 @@
 import React from "react";
-import { Box } from "@mui/material";
-import bibiSource from "../../../../public/images/bibi.jpg";
-import cv, { Mat } from "opencv-ts";
-
-const ImageBox = () => {
-  const image = new Image(1080, 720);
-  image.src = bibiSource;
+import { Box, CircularProgress } from "@mui/material";
+import bibiSource from "../../../images/bibi.jpg";
+import { useState } from "react";
+interface Props {
+  onImageLoad: (str: string) => void;
+  imageString: string;
+}
+const ImageBox = ({ onImageLoad, imageString }: Props) => {
   function convertImageToBase64(imgElement: HTMLImageElement) {
     const canvas = document.createElement("canvas");
     canvas.width = imgElement.width;
@@ -17,17 +18,31 @@ const ImageBox = () => {
     const base64String = canvas.toDataURL("image/png");
     return base64String;
   }
-  console.log(convertImageToBase64(image));
+  const [loading, setLoading] = useState(true);
+  const image = new Image();
+  image.src = bibiSource;
 
+  image.onload = function () {
+    setLoading(false);
+    onImageLoad(convertImageToBase64(image));
+  };
   return (
     <Box
       sx={{
-        width: 1080,
-        height: 720,
-        backgroundColor: "primary.dark",
+        width: 1120,
+        height: 760,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        border: 20,
+        borderColor: "white",
       }}
     >
-      <img src={bibiSource} width="1080" height="720"></img>
+      {loading ? (
+        <CircularProgress color="info" />
+      ) : (
+        <img src={imageString} width="1080" height="720"></img>
+      )}
     </Box>
   );
 };

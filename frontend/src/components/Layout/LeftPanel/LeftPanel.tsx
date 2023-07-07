@@ -9,6 +9,7 @@ import InputStack from "./InputStack";
 import MyButton from "./MyButton";
 import ArrowDropDownCircleIcon from "@mui/icons-material/ArrowDropDownCircle";
 import UploadIcon from "@mui/icons-material/Upload";
+
 const transformations = ["TO_RGB", "OTHER", "FUCK"];
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -38,18 +39,38 @@ let TextMap = new Map<string, string>([
   ["FUCK", "FUCK TYPESCRIPT?"],
   ["nothing", "Please select a transformation!"],
 ]);
+
 let InputStackMap = new Map<string, string[]>([
   ["TO_RGB", ["fiwrst", "sesscond", ""]],
   ["OTHER", ["firsst", "", ""]],
   ["FUCK", ["firdst", "secodnd", "thired"]],
   ["nothing", ["", "", ""]],
 ]);
+
 function isString(value: unknown): value is string {
   return typeof value === "string";
 }
-const LeftPanel = () => {
-  const [currentTransformation, currentTransformationSetter] =
-    useState<string>("nothing");
+
+interface Props {
+  onFirstChange: (int: number) => void;
+  onSecondChange: (int: number) => void;
+  onThirdChange: (int: number) => void;
+  onTransformationTypeChange: (str: string) => void;
+  onTransformMain: () => void;
+  onTransformCurrent: () => void;
+  currentTransformation: string;
+}
+
+const LeftPanel = ({
+  onFirstChange,
+  onSecondChange,
+  onThirdChange,
+  onTransformationTypeChange,
+  onTransformMain,
+  onTransformCurrent,
+  currentTransformation,
+}: Props) => {
+  
   const [leftPanelText, setLeftPanelText] = useState<string | undefined>(
     TextMap.get(currentTransformation)
   );
@@ -62,7 +83,7 @@ const LeftPanel = () => {
             menuItems={transformations}
             onItemClick={(item: string) => {
               setLeftPanelText(TextMap.get(item));
-              currentTransformationSetter(item);
+              onTransformationTypeChange(item);
             }}
           />
         </Item>
@@ -82,7 +103,12 @@ const LeftPanel = () => {
         >
           {isString(currentTransformation) ? (
             <FillItem>
-              <InputStack titles={InputStackMap.get(currentTransformation)} />
+              <InputStack
+                titles={InputStackMap.get(currentTransformation)}
+                onFirstChange={onFirstChange}
+                onSecondChange={onSecondChange}
+                onThirdChange={onThirdChange}
+              />
             </FillItem>
           ) : (
             <Item></Item>
@@ -98,11 +124,11 @@ const LeftPanel = () => {
             <Stack spacing={2}>
               <MyButton
                 text={"Transform the current image"}
-                onClick={() => console.log(1)}
+                onClick={onTransformCurrent}
               ></MyButton>
               <MyButton
                 text={"Transform the main image"}
-                onClick={() => console.log(2)}
+                onClick={onTransformMain}
               ></MyButton>
             </Stack>
           </Item>

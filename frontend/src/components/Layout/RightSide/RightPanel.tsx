@@ -3,7 +3,11 @@ import React from "react";
 import { positions } from "@mui/system";
 import { spacing } from "@mui/system";
 import ImageBox from "./ImageBox";
-const RightPanel = () => {
+interface Props {
+  onImageLoad: (str: string) => void;
+  imageString: string;
+}
+const RightPanel = ({ onImageLoad, imageString }: Props) => {
   return (
     <Box
       sx={{
@@ -22,7 +26,7 @@ const RightPanel = () => {
           justifyContent: "center",
         }}
       >
-        {<ImageBox />}
+        {<ImageBox onImageLoad={onImageLoad} imageString={imageString} />}
       </Box>
     </Box>
   );

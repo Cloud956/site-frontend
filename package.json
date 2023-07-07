@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "image-to-base64": "^2.2.0",
-    "opencv-ts": "^1.3.6"
-  }
-}
