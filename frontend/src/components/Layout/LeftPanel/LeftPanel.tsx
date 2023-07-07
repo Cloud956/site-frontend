@@ -69,7 +69,7 @@ const LeftPanel = () => {
         <Box
           sx={{
             width: "100%",
-            height: 400,
+            height: 350,
           }}
         >
           <FillItem>{leftPanelText}</FillItem>
