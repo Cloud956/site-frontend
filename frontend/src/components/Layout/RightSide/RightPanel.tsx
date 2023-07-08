@@ -4,10 +4,17 @@ import { positions } from "@mui/system";
 import { spacing } from "@mui/system";
 import ImageBox from "./ImageBox";
 interface Props {
-  onImageLoad: (str: string) => void;
+
   imageString: string;
+  loading: boolean;
+ 
 }
-const RightPanel = ({ onImageLoad, imageString }: Props) => {
+const RightPanel = ({
+
+  imageString,
+  loading
+
+}: Props) => {
   return (
     <Box
       sx={{
@@ -26,7 +33,14 @@ const RightPanel = ({ onImageLoad, imageString }: Props) => {
           justifyContent: "center",
         }}
       >
-        {<ImageBox onImageLoad={onImageLoad} imageString={imageString} />}
+        {
+          <ImageBox
+          
+            imageString={imageString}
+            loading={loading}
+         
+          />
+        }
       </Box>
     </Box>
   );

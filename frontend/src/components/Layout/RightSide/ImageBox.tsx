@@ -3,29 +3,11 @@ import { Box, CircularProgress } from "@mui/material";
 import bibiSource from "../../../images/bibi.jpg";
 import { useState } from "react";
 interface Props {
-  onImageLoad: (str: string) => void;
+  loading: boolean
   imageString: string;
 }
-const ImageBox = ({ onImageLoad, imageString }: Props) => {
-  function convertImageToBase64(imgElement: HTMLImageElement) {
-    const canvas = document.createElement("canvas");
-    canvas.width = imgElement.width;
-    canvas.height = imgElement.height;
-
-    const ctx = canvas.getContext("2d");
-    ctx?.drawImage(imgElement, 0, 0);
-
-    const base64String = canvas.toDataURL("image/png");
-    return base64String;
-  }
-  const [loading, setLoading] = useState(true);
-  const image = new Image();
-  image.src = bibiSource;
-
-  image.onload = function () {
-    setLoading(false);
-    onImageLoad(convertImageToBase64(image));
-  };
+const ImageBox = ({ loading, imageString }: Props) => {
+  
   return (
     <Box
       sx={{
