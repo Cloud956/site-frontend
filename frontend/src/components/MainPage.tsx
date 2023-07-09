@@ -8,11 +8,43 @@ const MainPage = () => {
   const [firstParam, setFirstParam] = useState(0);
   const [secondParam, setSecondParam] = useState(0);
   const [thirdParam, setThirdParam] = useState(0);
-  const [ImageBase64, SetImageBase64] = useState("");
-  const [practiceImageFlag, SetPracticeImageFlag] = useState(true);
+  const [currentImageBase64, setCurrentImageBase64] = useState("");
+  const [mainImageBase64, setMainImageBase64] = useState("");
+
+  const [practiceImageFlag, setPracticeImageFlag] = useState(true);
   const [currentTransformation, currentTransformationSetter] =
-    useState<string>("nothing");
+    useState<string>("No transformation");
   const [loading, setLoading] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  function DisplayMain() {
+    setCurrentImageBase64(mainImageBase64);
+  }
+  async function fileto64(file: File) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      let base64 = reader.result as string;
+      setCurrentImageBase64(base64);
+      setMainImageBase64(base64);
+    };
+  }
+  function handleUserImageInput() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+
+    input.onchange = (event) => {
+      let files = (event.target as HTMLInputElement).files;
+      if (files != null) {
+        let file = files[0];
+        fileto64(file);
+      }
+      // Do something with the selected file
+    };
+    input.click();
+  }
+
   function convertImageToBase64(imgElement: HTMLImageElement) {
     const canvas = document.createElement("canvas");
     canvas.width = imgElement.width;
@@ -30,21 +62,31 @@ const MainPage = () => {
     console.log("this is running");
     image.onload = function () {
       setLoading(false);
-      SetImageBase64(convertImageToBase64(image));
+      const image64 = convertImageToBase64(image);
+      setMainImageBase64(image64);
+      setCurrentImageBase64(image64);
       console.log("Im loading");
     };
-    SetPracticeImageFlag(false);
+    setPracticeImageFlag(false);
   }
-
-  async function onClickMain() {
-    setLoading(true);
-    let currentAddress = backendIP + currentTransformation;
-    const requestBody = {
-      image: ImageBase64,
+  function giveRequestBody(current: boolean) {
+    let image64 = current ? currentImageBase64 : mainImageBase64;
+    let requestBody = {
+      image: image64,
       param1: firstParam,
       param2: secondParam,
       param3: thirdParam,
     };
+    return requestBody;
+  }
+
+  async function runRequest(requestBody: {
+    image: string;
+    param1: number;
+    param2: number;
+    param3: number;
+  }) {
+    let currentAddress = backendIP + currentTransformation;
     const requestOptions = {
       method: "POST",
       headers: {
@@ -53,20 +95,56 @@ const MainPage = () => {
       },
       body: JSON.stringify(requestBody),
     };
-    const response = await fetch(currentAddress, requestOptions);
-    const data = await response.json();
-    const image_data = data.image;
-    SetImageBase64(image_data);
-    setLoading(false);
+    try {
+      setLoading(true);
+      let response = await fetch(currentAddress, requestOptions);
+      if (!response.ok) {
+        setOffAlert(response.status + " " + response.statusText);
+        setLoading(false);
+      } else {
+        console.log(response.status);
+        const data = await response.json();
+        const image_data = data.image;
+        setCurrentImageBase64(image_data);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log("request failed");
+      setLoading(false);
+    }
+  }
+  function setOffAlert(message: string) {
+    setAlertMessage(message);
+    if (!showAlert) {
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+    }
+  }
+  const transformationSelected = () => {
+    if (currentTransformation == "nothing") {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  async function onClickMain() {
+    if (transformationSelected()) {
+      let requestbody = giveRequestBody(false);
+      runRequest(requestbody);
+    } else {
+      setOffAlert("No transformation selected!");
+    }
   }
 
-  function onClickCurrent() {
-    console.log(2);
-    console.log(firstParam);
-    console.log(secondParam);
-    console.log(thirdParam);
-    console.log(currentTransformation);
-    console.log(ImageBase64);
+  async function onClickCurrent() {
+    if (transformationSelected()) {
+      let requestbody = giveRequestBody(true);
+      runRequest(requestbody);
+    } else {
+      setOffAlert("No transformation selected!");
+    }
   }
 
   return (
@@ -78,9 +156,17 @@ const MainPage = () => {
         onTransformCurrent={onClickCurrent}
         onTransformMain={onClickMain}
         onTransformationTypeChange={currentTransformationSetter}
+        onDisplayMain={DisplayMain}
+        handleUserImageInput={handleUserImageInput}
         currentTransformation={currentTransformation}
       />
-      <RightPanel imageString={ImageBase64} loading={loading} />
+      <RightPanel
+        imageString={currentImageBase64}
+        loading={loading}
+        setAlertShowing={setShowAlert}
+        alertMessage={alertMessage}
+        showingAlert={showAlert}
+      />
     </>
   );
 };

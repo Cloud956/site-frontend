@@ -3,11 +3,18 @@ import Button from "@mui/material/Button";
 interface Props {
   text: string;
   onClick: () => void;
+  mainColor: boolean;
 }
-const MyButton = ({ text, onClick }: Props) => {
+const MyButton = ({ text, onClick, mainColor }: Props) => {
+  const color = mainColor ? "primary" : "secondary";
   return (
     <>
-      <Button onClick={onClick} sx={{ boxShadow: 8 }} variant="contained">
+      <Button
+        onClick={onClick}
+        color={color}
+        sx={{ boxShadow: 8 }}
+        variant="contained"
+      >
         {text}
       </Button>
     </>

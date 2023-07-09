@@ -3,17 +3,21 @@ import React from "react";
 import { positions } from "@mui/system";
 import { spacing } from "@mui/system";
 import ImageBox from "./ImageBox";
+import AlertFields from "./AlertFields";
+import { SettingsAccessibility } from "@mui/icons-material";
 interface Props {
-
   imageString: string;
   loading: boolean;
- 
+  showingAlert: boolean;
+  setAlertShowing: (bool: boolean) => void;
+  alertMessage: string;
 }
 const RightPanel = ({
-
   imageString,
-  loading
-
+  loading,
+  showingAlert,
+  setAlertShowing,
+  alertMessage,
 }: Props) => {
   return (
     <Box
@@ -24,6 +28,12 @@ const RightPanel = ({
         ml: "320px",
       }}
     >
+      <AlertFields
+        showing={showingAlert}
+        setShowing={setAlertShowing}
+        message={alertMessage}
+        
+      />
       <Box
         sx={{
           flexGrow: 1,
@@ -31,15 +41,13 @@ const RightPanel = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          mt:"100"
         }}
       >
         {
-          <ImageBox
-          
-            imageString={imageString}
-            loading={loading}
-         
-          />
+          <>
+            <ImageBox imageString={imageString} loading={loading} />
+          </>
         }
       </Box>
     </Box>
