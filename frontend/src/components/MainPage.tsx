@@ -90,7 +90,6 @@ const MainPage = () => {
     const requestOptions = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "True",
       },
       body: JSON.stringify(requestBody),
