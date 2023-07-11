@@ -4,10 +4,10 @@ import LeftPanel from "./Layout/LeftPanel/LeftPanel";
 import RightPanel from "./Layout/RightSide/RightPanel";
 import bibiSource from "../images/bibi.jpg";
 const MainPage = () => {
-  const backendIP = "http://0.0.0.0:80/transformations/";
+  const backendIP = "http://18.184.42.144:80/transformations/";
   const [firstParam, setFirstParam] = useState(0);
   const [secondParam, setSecondParam] = useState(0);
-  const [thirdParam, setThirdParam] = useState(0);
+  const [thirdParam, setThirdParam] = useState(0);  
   const [currentImageBase64, setCurrentImageBase64] = useState("");
   const [mainImageBase64, setMainImageBase64] = useState("");
 
