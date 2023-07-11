@@ -4,7 +4,7 @@ import LeftPanel from "./Layout/LeftPanel/LeftPanel";
 import RightPanel from "./Layout/RightSide/RightPanel";
 import bibiSource from "../images/bibi.jpg";
 const MainPage = () => {
-  const backendIP = "http://localhost:80/transformations/";
+  const backendIP = "http://18.184.42.144:80/transformations/";
   const [firstParam, setFirstParam] = useState(0);
   const [secondParam, setSecondParam] = useState(0);
   const [thirdParam, setThirdParam] = useState(0);
