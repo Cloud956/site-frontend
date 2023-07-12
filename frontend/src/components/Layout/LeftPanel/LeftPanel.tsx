@@ -42,11 +42,7 @@ let TextMap = new Map<string, string>([
   ["To HSV", "Transforms the RGB image to its HSV representative."],
   ["To HSL", "Transforms the RGB image to its HLS representative."],
   ["To GRAY", "Transforms the RGB image to its grayscale representative."],
-  [
-    "Color quantization",
-    "Limits the number of colors on the image. Please insert below \
-    the desired number of colors.",
-  ],
+
   [
     "Edge detection",
     "Displays the shapes in the image, aqcuired using the manual Sobel Edge Detection.\
@@ -66,7 +62,7 @@ let TextMap = new Map<string, string>([
   the size of the sampled image below!",
   ],
   [
-    "Uniform quantization",
+    "Color quantization",
     "Reduces the number of colors in the image, using the uniform quantization method.\
   Please enter below the desired number of colors(X). Due to the nature of the algorithm\
   , on grayscale images, it will reduce the number of colors to X, while on color\
@@ -89,7 +85,9 @@ let TextMap = new Map<string, string>([
     "Cartoonification",
     "Cartoonifies the image, using the edge detection, and color quantization. \
   Detects the edges in the image and applies an outline around them, while reducing the number of colors in the image to give it a cartoon-like look.\
-  Please input below numerical factors for the edge deteciton strength, number of colors and edge outline strength.",
+  Please input below numerical factors for the edge detection strength, number of colors(X) and edge outline strength. Due to the nature of the algorithm\
+  , on grayscale images, it will reduce the number of colors to X, while on color\
+  images, it will reduce it to X*X*X ",
   ],
   [
     "Vertical and horizontal translation",
@@ -128,11 +126,10 @@ let InputStackMap = new Map<string, string[]>([
   ["To HSV", ["", "", ""]], // to_hsv
   ["To HSL", ["", "", ""]], // to_hsl
   ["To GRAY", ["", "", ""]], //to_gray
-  ["Color quantization", ["Number of colors", "", ""]], //k_means
   ["Edge detection", ["Edge strength", "", ""]], //sobel_edge
   ["Linear sampling", ["Image size", "", ""]], //linear_sampling
   ["Nearest Neighbour sampling", ["Image size", "", ""]], //nn_sampling
-  ["Uniform quantization", ["Number of colors", "", ""]], //uniform_quantization
+  ["Color quantization", ["Number of colors", "", ""]], //uniform_quantization
   ["Gaussian noise", ["Seed", "", ""]], //gauss_noise
   ["Image inversion", ["", "", ""]], //inverse
   ["Power law transformation", ["X", "", ""]], //power_law
