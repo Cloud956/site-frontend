@@ -10,7 +10,6 @@ import MyButton from "./MyButton";
 import ArrowDropDownCircleIcon from "@mui/icons-material/ArrowDropDownCircle";
 import UploadIcon from "@mui/icons-material/Upload";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-const transformations = ["TO_RGB", "OTHER", "FUCK"];
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -34,19 +33,126 @@ const FillItem = styled(Paper)(({ theme }) => ({
 }));
 
 let TextMap = new Map<string, string>([
-  ["TO_RGB", "THIS TRANSFORMATION TRANSFORMS INTO RGB"],
-  ["OTHER", "THIS DOES STH ELSE"],
-  ["FUCK", "FUCK TYPESCRIPT?"],
-  ["No transformation", "Please select a transformation!"],
+  [
+    "To BRG",
+    "Transforms the RGB image to its BGR representative. As this image is still \
+  read in RGB, it will appear as if the intensity of the red and \
+  blue colors have swapped.",
+  ],
+  ["To HSV", "Transforms the RGB image to its HSV representative."],
+  ["To HSL", "Transforms the RGB image to its HLS representative."],
+  ["To GRAY", "Transforms the RGB image to its grayscale representative."],
+  [
+    "Color quantization",
+    "Limits the number of colors on the image. Please insert below \
+    the desired number of colors.",
+  ],
+  [
+    "Edge detection",
+    "Displays the shapes in the image, aqcuired using the manual Sobel Edge Detection.\
+  You can insert and integer below, which is used in the code to make the edge \
+  detection stronger/weaker. Recommended number is 5.",
+  ],
+  [
+    "Linear sampling",
+    "Samples the image resizing it to 1/X of its original size. Resizes it back to its original size using the linear \
+    sampling rezising method! Input the sampling factor(X), which will determine \
+    the size of the sampled image below!",
+  ],
+  [
+    "Nearest Neighbour sampling",
+    "Samples the image resizing it to 1/X of its original size. Resizes it back to its original size using the nearest neighbour \
+  rezising method! Input the sampling factor(X), which will determine \
+  the size of the sampled image below!",
+  ],
+  [
+    "Uniform quantization",
+    "Reduces the number of colors in the image, using the uniform quantization method.\
+  Please enter below the desired number of colors(X). Due to the nature of the algorithm\
+  , on grayscale images, it will reduce the number of colors to X, while on color\
+  images, it will reduce it to X*X*X ",
+  ],
+  [
+    "Gaussian noise",
+    "Adds gaussian noise to the image. Please insert below a seed for the noise.",
+  ],
+  [
+    "Image inversion",
+    "Creates a negative of the image by applying the pointwise inverse operation.",
+  ],
+  [
+    "Power law transformation",
+    "Also called gamma adjustment. All of the pixel values ( ranging from 0-255) will be divided by 255 to fit a 0-1 scale.\
+  After that all of the pixel values will be powered to X, which you can input below. Feels free to experiment with different values of X between 0 and positive infinity.",
+  ],
+  [
+    "Cartoonification",
+    "Cartoonifies the image, using the edge detection, and color quantization. \
+  Detects the edges in the image and applies an outline around them, while reducing the number of colors in the image to give it a cartoon-like look.\
+  Please input below numerical factors for the edge deteciton strength, number of colors and edge outline strength.",
+  ],
+  [
+    "Vertical and horizontal translation",
+    "Applies a vertical and horizontal translation, essentially moving the image to the sides. Will cut out part of the image in the process. \
+  Please input below the number of pixels for the horizontal and vertical translation.",
+  ],
+  [
+    "Salt&Pepper noise",
+    "Applies salt and pepper noise to the image. Input below a number X, where 1/X will be the chance for noise to appear on each pixel.",
+  ],
+  [
+    "Median filter",
+    "De-noises the image using a median filter, which uses a X*X kernel and goes over the entire image. Good at removing salt and pepper noise. Please input below X, which will determine the size of the kernel.",
+  ],
+  [
+    "Periodic horizontal noise",
+    "Applies periodic horizontal noise to the image.",
+  ],
+  ["Periodic vertical noise", "Applies periodic vertical noise to the image."],
+  [
+    "FFT power spectrum",
+    "Displays the power spectrum of the Fast Fourier Transformation of the image.",
+  ],
+  [
+    "FFT magnitude spectrum",
+    "Displays the magnitude spectrum of the Fast Fourier Transformation of the image.",
+  ],
+  [
+    "Denoise in FT",
+    "De-noises the image, by cutting out a big part of his FFT, in an attempt to remove the parts causing the periodic noise. Outputs a grayscale image, which will probably be quite blurry.",
+  ],
 ]);
 
 let InputStackMap = new Map<string, string[]>([
-  ["TO_RGB", ["fiwrst", "sesscond", ""]],
-  ["OTHER", ["firsst", "", ""]],
-  ["FUCK", ["firdst", "secodnd", "thired"]],
-  ["No transformation", ["", "", ""]],
+  ["To BRG", ["", "", ""]], //to_bgr
+  ["To HSV", ["", "", ""]], // to_hsv
+  ["To HSL", ["", "", ""]], // to_hsl
+  ["To GRAY", ["", "", ""]], //to_gray
+  ["Color quantization", ["Number of colors", "", ""]], //k_means
+  ["Edge detection", ["Edge strength", "", ""]], //sobel_edge
+  ["Linear sampling", ["Image size", "", ""]], //linear_sampling
+  ["Nearest Neighbour sampling", ["Image size", "", ""]], //nn_sampling
+  ["Uniform quantization", ["Number of colors", "", ""]], //uniform_quantization
+  ["Gaussian noise", ["Seed", "", ""]], //gauss_noise
+  ["Image inversion", ["", "", ""]], //inverse
+  ["Power law transformation", ["X", "", ""]], //power_law
+  [
+    "Cartoonification",
+    ["Edge detection strength", "Number of colors", "Edge outline strength"],
+  ], //cartoon
+  [
+    "Vertical and horizontal translation",
+    ["Vertical translation", "Horizontal translation", ""],
+  ], //translation
+  ["Salt&Pepper noise", ["Chance factor", "", ""]], //salt_pepper
+  ["Median filter", ["Kernel shape", "", ""]], //median_filter
+  ["Periodic horizontal noise", ["", "", ""]], //horizontal_noise
+  ["Periodic vertical noise", ["", "", ""]], // vertical_noise
+  ["FFT power spectrum", ["", "", ""]], //fft_power
+  ["FFT magnitude spectrum", ["", "", ""]], //fft_magnitude
+  ["Denoise in FT", ["", "", ""]], //denoise
 ]);
-
+const transformations = Array.from(InputStackMap.keys());
 function isString(value: unknown): value is string {
   return typeof value === "string";
 }

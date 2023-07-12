@@ -29,6 +29,7 @@ const InputStack = ({
       <TextField
         id="outlined-basic"
         label={item}
+        type="number"
         variant="filled"
         disabled={item.length === 0}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>

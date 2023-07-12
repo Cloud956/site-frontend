@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function TransformationsMenu({ menuItems, onItemClick }: Props) {
-  const MAX_HEIGHT = 40;
+  const MAX_HEIGHT = 100;
   const [menuState, menuStateChanger] = useState<null | HTMLElement>(null);
   const [menuSelectedItem, menuSelectedItemChanger] = useState<string>("");
   const open = Boolean(menuState);
@@ -50,7 +50,7 @@ export default function TransformationsMenu({ menuItems, onItemClick }: Props) {
         PaperProps={{
           style: {
             maxHeight: MAX_HEIGHT * 4.5,
-            width: "20ch",
+            width: "auto",
           },
         }}
       >

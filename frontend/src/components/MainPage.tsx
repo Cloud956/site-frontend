@@ -3,11 +3,35 @@ import { Box, Paper } from "@mui/material";
 import LeftPanel from "./Layout/LeftPanel/LeftPanel";
 import RightPanel from "./Layout/RightSide/RightPanel";
 import bibiSource from "../images/bibi.jpg";
+let requestMap = new Map<string, string>([
+  ["To BRG", "to_bgr"],
+  ["To HSV", "to_hsv"],
+  ["To HSL", "to_hsl"],
+  ["To GRAY", "to_gray"],
+  ["Color quantization", "k_means"],
+  ["Edge detection", "sobel_edge"],
+  ["Linear sampling", "linear_sampling"],
+  ["Nearest Neighbour sampling", "nn_sampling"],
+  ["Uniform quantization", "uniform_quantization"],
+  ["Gaussian noise", "gauss_noise"],
+  ["Image inversion", "inverse"],
+  ["Power law transformation", "power_law"],
+  ["Cartoonification", "cartoon"],
+  ["Vertical and horizontal translation", "translation"],
+  ["Salt&Pepper noise", "salt_pepper"],
+  ["Median filter", "median_filter"],
+  ["Periodic horizontal noise", "horizontal_noise"],
+  ["Periodic vertical noise", "vertical_noise"],
+  ["FFT power spectrum", "fft_power"],
+  ["FFT magnitude spectrum", "fft_magnitude"],
+  ["Denoise in FT", "denoise"],
+]);
+
 const MainPage = () => {
   const backendIP = "http://18.184.42.144:80/transformations/";
   const [firstParam, setFirstParam] = useState(0);
   const [secondParam, setSecondParam] = useState(0);
-  const [thirdParam, setThirdParam] = useState(0);  
+  const [thirdParam, setThirdParam] = useState(0);
   const [currentImageBase64, setCurrentImageBase64] = useState("");
   const [mainImageBase64, setMainImageBase64] = useState("");
 
@@ -86,31 +110,35 @@ const MainPage = () => {
     param2: number;
     param3: number;
   }) {
-    let currentAddress = backendIP + currentTransformation;
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "True",
-      },
-      body: JSON.stringify(requestBody),
-    };
-    try {
-      setLoading(true);
-      let response = await fetch(currentAddress, requestOptions);
-      if (!response.ok) {
-        setOffAlert(response.status + " " + response.statusText);
-        setLoading(false);
-      } else {
-        console.log(response.status);
-        const data = await response.json();
-        const image_data = data.image;
-        setCurrentImageBase64(image_data);
+    if (currentTransformation == "No transformation") {
+      setOffAlert("Please select a transformation first!");
+    } else {
+      let currentAddress = backendIP + requestMap.get(currentTransformation);
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "True",
+        },
+        body: JSON.stringify(requestBody),
+      };
+      try {
+        setLoading(true);
+        let response = await fetch(currentAddress, requestOptions);
+        if (!response.ok) {
+          setOffAlert(response.status + " " + response.statusText);
+          setLoading(false);
+        } else {
+          console.log(response.status);
+          const data = await response.json();
+          const image_data = data.image;
+          setCurrentImageBase64(image_data);
+          setLoading(false);
+        }
+      } catch (e) {
+        console.log("request failed");
         setLoading(false);
       }
-    } catch (e) {
-      console.log("request failed");
-      setLoading(false);
     }
   }
   function setOffAlert(message: string) {
