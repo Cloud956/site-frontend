@@ -27,7 +27,7 @@ let requestMap = new Map<string, string>([
 ]);
 
 const MainPage = () => {
-  const backendIP = "http://18.184.42.144:80/transformations/";
+  const backendIP = "https://api.image-processing-app.com/transformations/";
   const [firstParam, setFirstParam] = useState(0);
   const [secondParam, setSecondParam] = useState(0);
   const [thirdParam, setThirdParam] = useState(0);
@@ -135,7 +135,7 @@ const MainPage = () => {
           setLoading(false);
         }
       } catch (e) {
-        console.log("request failed");
+        setOffAlert("Backend API connection failed.");
         setLoading(false);
       }
     }
