@@ -25,14 +25,13 @@ const RightPanel = ({
         display: "flex",
         flexDirection: "column",
         height: "100vh",
-        ml: "320px",
+        ml: "25vw",
       }}
     >
       <AlertFields
         showing={showingAlert}
         setShowing={setAlertShowing}
         message={alertMessage}
-        
       />
       <Box
         sx={{
@@ -41,7 +40,7 @@ const RightPanel = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          mt:"100"
+          mt: "100",
         }}
       >
         {

@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function TransformationsMenu({ menuItems, onItemClick }: Props) {
-  const MAX_HEIGHT = 100;
+  const MAX_HEIGHT = "50vh";
   const [menuState, menuStateChanger] = useState<null | HTMLElement>(null);
   const [menuSelectedItem, menuSelectedItemChanger] = useState<string>("");
   const open = Boolean(menuState);
@@ -35,9 +35,13 @@ export default function TransformationsMenu({ menuItems, onItemClick }: Props) {
         aria-haspopup="true"
         onClick={handleClick}
         color="primary"
+        sx={{
+          height:"4vh"
+        }}
         
       >
-        Select a transformation!
+        <span style={{fontSize:"1.3vh"}}>Select a transformation! </span>
+        
       </Button>
       <Menu
         id="long-menu"
@@ -49,7 +53,7 @@ export default function TransformationsMenu({ menuItems, onItemClick }: Props) {
         onClose={handleClose}
         PaperProps={{
           style: {
-            maxHeight: MAX_HEIGHT * 4.5,
+            maxHeight: MAX_HEIGHT,
             width: "auto",
           },
         }}

@@ -6,6 +6,7 @@ import { styled } from "@mui/material/styles";
 import ListGroup from "./ListGroup";
 import TransformationsMenu from "./TransformationsMenu";
 import InputStack from "./InputStack";
+import { positions } from "@mui/system";
 import MyButton from "./MyButton";
 import ArrowDropDownCircleIcon from "@mui/icons-material/ArrowDropDownCircle";
 import UploadIcon from "@mui/icons-material/Upload";
@@ -101,7 +102,10 @@ let TextMap = new Map<string, string>([
     "Periodic horizontal noise",
     "Applies periodic horizontal noise to the image. This noise will also be clearly visible in FFT spectra of the image.",
   ],
-  ["Periodic vertical noise", "Applies periodic vertical noise to the image. This noise will also be clearly visible in FFT spectra of the image."],
+  [
+    "Periodic vertical noise",
+    "Applies periodic vertical noise to the image. This noise will also be clearly visible in FFT spectra of the image.",
+  ],
   [
     "FFT power spectrum",
     "Displays the power spectrum of the Fast Fourier Transformation of the image.",
@@ -178,8 +182,12 @@ const LeftPanel = ({
 
   return (
     <Box className="sidebar">
-      <Stack spacing={2}>
-        <Item>
+      <Stack spacing={1}>
+        <Item
+          sx={{
+            height: "auto",
+          }}
+        >
           <TransformationsMenu
             menuItems={transformations}
             onItemClick={(item: string) => {
@@ -188,12 +196,18 @@ const LeftPanel = ({
             }}
           />
         </Item>
-        <Item>
-          <Stack>
-            <span style={{ fontWeight: "bold" }}>
+        <Item
+          sx={{
+            height: "6vh",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Stack sx={{ alignItems: "center", justifyContent: "center" }}>
+            <span style={{ fontWeight: "bold", fontSize: "1.5vh" }}>
               Currently selected transformation :
             </span>
-            <span style={{ textDecoration: "underline" }}>
+            <span style={{ textDecoration: "underline", fontSize: "1.5vh" }}>
               {currentTransformation}
             </span>
           </Stack>
@@ -201,15 +215,17 @@ const LeftPanel = ({
         <Box
           sx={{
             width: "100%",
-            height: 300,
+            height: "27vh",
           }}
         >
-          <FillItem>{leftPanelText}</FillItem>
+          <FillItem>
+            <span style={{ fontSize: "1.5vh" }}>{leftPanelText}</span>
+          </FillItem>
         </Box>
         <Box
           sx={{
             width: "100%",
-            height: 233,
+            height: "25vh",
           }}
         >
           {isString(currentTransformation) ? (
@@ -227,7 +243,7 @@ const LeftPanel = ({
         </Box>
         <Box
           sx={{
-            height: 130,
+            height: "15vh",
             width: "100%",
           }}
         >
@@ -251,12 +267,8 @@ const LeftPanel = ({
             </Stack>
           </Item>
         </Box>
-        <Box>
-          <Item
-            sx={{
-              gap: "50px",
-            }}
-          >
+        <Box sx={{ width: "100%", height: "15vh" }}>
+          <Item>
             <Button
               endIcon={
                 <Tooltip title="All uploads will be resized into a 1080x720 format.">

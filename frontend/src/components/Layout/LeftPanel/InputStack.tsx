@@ -24,30 +24,19 @@ const InputStack = ({
   onThirdChange,
 }: Props) => {
   const functions = [onFirstChange, onSecondChange, onThirdChange];
-  const items = titles?.map((item: string, index: number) => (
-    <Item key={item + index.toString()}>
-      <TextField
-        id="outlined-basic"
-        label={item}
-        type="number"
-        variant="filled"
-        disabled={item.length === 0}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          functions[index](parseFloat(event.target.value))
-        }
-      />
-    </Item>
-  ));
+ 
+  
   return (
     <Stack
       sx={{
         textAlign: "center",
-
         width: "100%", // Adjust the width to fit the container
         height: "100%", // Adjust the height to fit the container
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      {items}
+      {}
     </Stack>
   );
 };

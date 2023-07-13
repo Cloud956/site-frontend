@@ -23,7 +23,7 @@ const AlertFields = ({ showing, setShowing, message }: Props) => {
             right: 0,
           }}
         >
-          {message}
+          <span style={{ fontSize: "1.6vh" }}>{message}</span>
         </Alert>
       ) : null}
     </>

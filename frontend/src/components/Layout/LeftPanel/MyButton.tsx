@@ -9,7 +9,7 @@ const MyButton = ({ text, onClick, mainColor }: Props) => {
   const color = mainColor ? "primary" : "secondary";
   return (
     <>
-      <Button
+      <Button style={{maxHeight: '4vh', minWidth: '30px', minHeight: '4vh'}}
         onClick={onClick}
         color={color}
         sx={{ boxShadow: 8 }}

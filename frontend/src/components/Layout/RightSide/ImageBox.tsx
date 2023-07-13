@@ -3,27 +3,26 @@ import { Box, CircularProgress } from "@mui/material";
 import bibiSource from "../../../images/bibi.jpg";
 import { useState } from "react";
 interface Props {
-  loading: boolean
+  loading: boolean;
   imageString: string;
 }
 const ImageBox = ({ loading, imageString }: Props) => {
-  
   return (
     <Box
       sx={{
-        width: 1120,
-        height: 760,
+        width: "60vw",
+        height: "60vl",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        border: 20,
+        border: 1,
         borderColor: "white",
       }}
     >
       {loading ? (
         <CircularProgress color="info" />
       ) : (
-        <img src={imageString} width="1080" height="720"></img>
+        <img src={imageString} width="100%" height="100%"></img>
       )}
     </Box>
   );
