@@ -135,7 +135,6 @@ let SlidersTitlesMap = new Map<string, string[]>([
     ["Vertical translation", "Horizontal translation", ""],
   ], //translation
   ["Salt&Pepper noise", ["Chance factor", "", ""]], //salt_pepper
-  ["Median filter", ["Kernel shape", "", ""]], //median_filter
   ["Periodic horizontal noise", ["", "", ""]], //horizontal_noise
   ["Periodic vertical noise", ["", "", ""]], // vertical_noise
   ["FFT power spectrum", ["", "", ""]], //fft_power
