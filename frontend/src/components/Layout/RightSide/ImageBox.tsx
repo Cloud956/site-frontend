@@ -10,8 +10,8 @@ const ImageBox = ({ loading, imageString }: Props) => {
   return (
     <Box
       sx={{
-        width: "60vw",
-        height: "60vl",
+        width: "62vw",
+        height: "40vw",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -20,7 +20,19 @@ const ImageBox = ({ loading, imageString }: Props) => {
       }}
     >
       {loading ? (
-        <CircularProgress color="info" />
+        <Box
+          sx={{
+            width: "100%",
+            height: "100%",
+            flexGrow: 1,
+            backgroundColor: "black",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress color="info" />
+        </Box>
       ) : (
         <img src={imageString} width="100%" height="100%"></img>
       )}

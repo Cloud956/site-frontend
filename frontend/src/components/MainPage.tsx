@@ -16,7 +16,6 @@ let requestMap = new Map<string, string>([
   ["Image inversion", "inverse"],
   ["Power law transformation", "power_law"],
   ["Cartoonification", "cartoon"],
-  ["Vertical and horizontal translation", "translation"],
   ["Salt&Pepper noise", "salt_pepper"],
   ["Median filter", "median_filter"],
   ["Periodic horizontal noise", "horizontal_noise"],
@@ -33,7 +32,7 @@ const MainPage = () => {
   const [thirdParam, setThirdParam] = useState(0);
   const [currentImageBase64, setCurrentImageBase64] = useState("");
   const [mainImageBase64, setMainImageBase64] = useState("");
-
+  const [transformationChange,setTransformationChange] = useState(true)
   const [practiceImageFlag, setPracticeImageFlag] = useState(true);
   const [currentTransformation, currentTransformationSetter] =
     useState<string>("No transformation");
@@ -82,7 +81,7 @@ const MainPage = () => {
   if (practiceImageFlag) {
     const image = new Image();
     image.src = bibiSource;
-    console.log("this is running");
+    //console.log("this is running");
     image.onload = function () {
       setLoading(false);
       const image64 = convertImageToBase64(image);
@@ -186,6 +185,8 @@ const MainPage = () => {
         onDisplayMain={DisplayMain}
         handleUserImageInput={handleUserImageInput}
         currentTransformation={currentTransformation}
+        transformationChange={transformationChange}
+        setTransformationChange={setTransformationChange}
       />
       <RightPanel
         imageString={currentImageBase64}

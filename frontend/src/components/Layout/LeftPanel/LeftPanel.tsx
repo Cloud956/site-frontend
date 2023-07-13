@@ -46,20 +46,20 @@ let TextMap = new Map<string, string>([
 
   [
     "Edge detection",
-    "Displays the shapes in the image, aqcuired using the manual Sobel Edge Detection.\
+    "Displays the shapes in the image, aqcuired using the Sobel Edge Detection algorithm.\
   You can select an integer below, which is used in the code to make the edge \
   detection stronger/weaker. Recommended number is 5.",
   ],
   [
     "Linear sampling",
     "Samples the image resizing it to 1/X of its original size. Resizes it back to its original size using the linear \
-    sampling rezising method! Input the sampling factor(X), which will determine \
+    sampling rezising method! Select the sampling factor(X), which will determine \
     the size of the sampled image below!",
   ],
   [
     "Nearest Neighbour sampling",
     "Samples the image resizing it to 1/X of its original size. Resizes it back to its original size using the nearest neighbour \
-  rezising method! Input the sampling factor(X), which will determine \
+  rezising method! Select the sampling factor(X), which will determine \
   the size of the sampled image below!",
   ],
   [
@@ -76,7 +76,7 @@ let TextMap = new Map<string, string>([
   [
     "Power law transformation",
     "Also called gamma adjustment. All of the pixel values ( ranging from 0-255) will be divided by 255 to fit a 0-1 scale.\
-  After that all of the pixel values will be powered to X, which you can input below. Feel free to experiment with different values of X.",
+  After that all of the pixel values will be powered to X, which you can select below. Feel free to experiment with different values of X.",
   ],
   [
     "Cartoonification",
@@ -84,11 +84,6 @@ let TextMap = new Map<string, string>([
   Detects the edges in the image and applies an outline around them, while reducing the number of colors in the image to give it a cartoon-like look.\
   Please select below numerical factors for the edge detection strength, number of colors(X) and edge outline strength. Due to the nature of the algorithm, on grayscale images it will reduce the number of colors to X, while on colored\
   images it will reduce it to X*X*X. ",
-  ],
-  [
-    "Vertical and horizontal translation",
-    "Applies a vertical and horizontal translation, essentially moving the image to the sides. Will cut out part of the image in the process. \
-  Please select below the number of pixels for the horizontal and vertical translation.",
   ],
   [
     "Salt&Pepper noise",
@@ -119,8 +114,7 @@ let TextMap = new Map<string, string>([
     "De-noises the image, by cutting out a big part of his FFT in an attempt to remove the parts causing the periodic noise. Outputs a grayscale image, which will probably be quite blurry.",
   ],
 ]);
-
-let InputStackMap = new Map<string, string[]>([
+let SlidersTitlesMap = new Map<string, string[]>([
   ["To BRG", ["", "", ""]], //to_bgr
   ["To HSV", ["", "", ""]], // to_hsv
   ["To HSL", ["", "", ""]], // to_hsl
@@ -148,7 +142,36 @@ let InputStackMap = new Map<string, string[]>([
   ["FFT magnitude spectrum", ["", "", ""]], //fft_magnitude
   ["Denoise in FT", ["", "", ""]], //denoise
 ]);
-const transformations = Array.from(InputStackMap.keys());
+let InputStackMap = new Map<string, number[][] | number[]>([
+  ["No transformation", []],
+  ["To BRG", []], //to_bgr
+  ["To HSV", []], // to_hsv
+  ["To HSL", []], // to_hsl
+  ["To GRAY", []], //to_gray
+  ["Edge detection", [[0, 20, 1, 5]]], //sobel_edge
+  ["Linear sampling", [[0, 100, 1, 10]]], //linear_sampling
+  ["Nearest Neighbour sampling", [[0, 100, 1, 10]]], //nn_sampling
+  ["Color quantization", [[0, 30, 1, 8]]], //uniform_quantization
+  ["Gaussian noise", []], //gauss_noise
+  ["Image inversion", []], //inverse
+  ["Power law transformation", [[0, 2, 0.1, 1]]], //power_law
+  [
+    "Cartoonification",
+    [
+      [0, 20, 1, 5],
+      [0, 30, 1, 8],
+      [0, 1, 0.1, 0.5],
+    ],
+  ], //cartoon
+  ["Salt&Pepper noise", [[0, 200, 1, 40]]], //salt_pepper
+  ["Median filter", [[0, 10, 1, 3]]], //median_filter
+  ["Periodic horizontal noise", []], //horizontal_noise
+  ["Periodic vertical noise", []], // vertical_noise
+  ["FFT power spectrum", []], //fft_power
+  ["FFT magnitude spectrum", []], //fft_magnitude
+  ["Denoise in FT", []], //denoise
+]);
+const transformations = Array.from(SlidersTitlesMap.keys());
 function isString(value: unknown): value is string {
   return typeof value === "string";
 }
@@ -163,6 +186,8 @@ interface Props {
   onDisplayMain: () => void;
   handleUserImageInput: () => void;
   currentTransformation: string;
+  transformationChange: boolean;
+  setTransformationChange: (b: boolean) => void;
 }
 
 const LeftPanel = ({
@@ -175,6 +200,8 @@ const LeftPanel = ({
   onDisplayMain,
   handleUserImageInput,
   currentTransformation,
+  transformationChange,
+  setTransformationChange,
 }: Props) => {
   const [leftPanelText, setLeftPanelText] = useState<string | undefined>(
     TextMap.get(currentTransformation)
@@ -193,6 +220,7 @@ const LeftPanel = ({
             onItemClick={(item: string) => {
               setLeftPanelText(TextMap.get(item));
               onTransformationTypeChange(item);
+              setTransformationChange(true);
             }}
           />
         </Item>
@@ -225,16 +253,19 @@ const LeftPanel = ({
         <Box
           sx={{
             width: "100%",
-            height: "25vh",
+            height: "30vh",
           }}
         >
           {isString(currentTransformation) ? (
             <FillItem>
               <InputStack
-                titles={InputStackMap.get(currentTransformation)}
+                sliders={InputStackMap.get(currentTransformation) as number[][]}
                 onFirstChange={onFirstChange}
                 onSecondChange={onSecondChange}
                 onThirdChange={onThirdChange}
+                titles={SlidersTitlesMap.get(currentTransformation) as string[]}
+                transformationChange={transformationChange}
+                setTransformationChange={setTransformationChange}
               />
             </FillItem>
           ) : (
