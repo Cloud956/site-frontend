@@ -35,7 +35,7 @@ const FillItem = styled(Paper)(({ theme }) => ({
 let TextMap = new Map<string, string>([
   [
     "To BRG",
-    "Transforms the RGB image to its BGR representative. As this image is still \
+    "Transforms the RGB image to its BRB representative. As this image is still \
   read in RGB, it will appear as if the intensity of the red and \
   blue colors have swapped.",
   ],
@@ -46,7 +46,7 @@ let TextMap = new Map<string, string>([
   [
     "Edge detection",
     "Displays the shapes in the image, aqcuired using the manual Sobel Edge Detection.\
-  You can insert and integer below, which is used in the code to make the edge \
+  You can select an integer below, which is used in the code to make the edge \
   detection stronger/weaker. Recommended number is 5.",
   ],
   [
@@ -63,15 +63,11 @@ let TextMap = new Map<string, string>([
   ],
   [
     "Color quantization",
-    "Reduces the number of colors in the image, using the uniform quantization method.\
-  Please enter below the desired number of colors(X). Due to the nature of the algorithm\
-  , on grayscale images, it will reduce the number of colors to X, while on color\
-  images, it will reduce it to X*X*X ",
+    "Reduces the number of colors in the image using the uniform quantization method.\
+  Please select below the desired number of colors(X). Due to the nature of the algorithm, on grayscale images it will reduce the number of colors to X, while on colored\
+  images it will reduce it to X*X*X.",
   ],
-  [
-    "Gaussian noise",
-    "Adds gaussian noise to the image. Please insert below a seed for the noise.",
-  ],
+  ["Gaussian noise", "Adds gaussian noise to the image."],
   [
     "Image inversion",
     "Creates a negative of the image by applying the pointwise inverse operation.",
@@ -79,34 +75,33 @@ let TextMap = new Map<string, string>([
   [
     "Power law transformation",
     "Also called gamma adjustment. All of the pixel values ( ranging from 0-255) will be divided by 255 to fit a 0-1 scale.\
-  After that all of the pixel values will be powered to X, which you can input below. Feels free to experiment with different values of X between 0 and positive infinity.",
+  After that all of the pixel values will be powered to X, which you can input below. Feel free to experiment with different values of X.",
   ],
   [
     "Cartoonification",
-    "Cartoonifies the image, using the edge detection, and color quantization. \
+    "Cartoonifies the image using the edge detection and color quantization. \
   Detects the edges in the image and applies an outline around them, while reducing the number of colors in the image to give it a cartoon-like look.\
-  Please input below numerical factors for the edge detection strength, number of colors(X) and edge outline strength. Due to the nature of the algorithm\
-  , on grayscale images, it will reduce the number of colors to X, while on color\
-  images, it will reduce it to X*X*X ",
+  Please select below numerical factors for the edge detection strength, number of colors(X) and edge outline strength. Due to the nature of the algorithm, on grayscale images it will reduce the number of colors to X, while on colored\
+  images it will reduce it to X*X*X. ",
   ],
   [
     "Vertical and horizontal translation",
     "Applies a vertical and horizontal translation, essentially moving the image to the sides. Will cut out part of the image in the process. \
-  Please input below the number of pixels for the horizontal and vertical translation.",
+  Please select below the number of pixels for the horizontal and vertical translation.",
   ],
   [
     "Salt&Pepper noise",
-    "Applies salt and pepper noise to the image. Input below a number X, where 1/X will be the chance for noise to appear on each pixel.",
+    "Applies salt and pepper noise to the image. Select below a number X, where 1/X will be the chance for noise to appear on each pixel.",
   ],
   [
     "Median filter",
-    "De-noises the image using a median filter, which uses a X*X kernel and goes over the entire image. Good at removing salt and pepper noise. Please input below X, which will determine the size of the kernel.",
+    "De-noises the image using a median filter, which uses a X*X kernel to go over the entire image and fix inconsistencies. Good at removing salt and pepper noise. Please input below X, which will determine the size of the kernel.",
   ],
   [
     "Periodic horizontal noise",
-    "Applies periodic horizontal noise to the image.",
+    "Applies periodic horizontal noise to the image. This noise will also be clearly visible in FFT spectra of the image.",
   ],
-  ["Periodic vertical noise", "Applies periodic vertical noise to the image."],
+  ["Periodic vertical noise", "Applies periodic vertical noise to the image. This noise will also be clearly visible in FFT spectra of the image."],
   [
     "FFT power spectrum",
     "Displays the power spectrum of the Fast Fourier Transformation of the image.",
@@ -117,7 +112,7 @@ let TextMap = new Map<string, string>([
   ],
   [
     "Denoise in FT",
-    "De-noises the image, by cutting out a big part of his FFT, in an attempt to remove the parts causing the periodic noise. Outputs a grayscale image, which will probably be quite blurry.",
+    "De-noises the image, by cutting out a big part of his FFT in an attempt to remove the parts causing the periodic noise. Outputs a grayscale image, which will probably be quite blurry.",
   ],
 ]);
 
