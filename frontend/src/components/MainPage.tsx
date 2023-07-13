@@ -135,7 +135,7 @@ const MainPage = () => {
           setLoading(false);
         }
       } catch (e) {
-        setOffAlert("request failed");
+        setOffAlert("Backend API connection failed.");
         setLoading(false);
       }
     }
