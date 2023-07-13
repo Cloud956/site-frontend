@@ -135,7 +135,7 @@ const MainPage = () => {
           setLoading(false);
         }
       } catch (e) {
-        console.log("request failed");
+        setOffAlert("request failed");
         setLoading(false);
       }
     }
