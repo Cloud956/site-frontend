@@ -32,15 +32,20 @@ const MainPage = () => {
   const [thirdParam, setThirdParam] = useState(0);
   const [currentImageBase64, setCurrentImageBase64] = useState("");
   const [mainImageBase64, setMainImageBase64] = useState("");
-  const [transformationChange,setTransformationChange] = useState(true)
+  const [lastImage, setLastImage] = useState("");
+  const [transformationChange, setTransformationChange] = useState(true);
   const [practiceImageFlag, setPracticeImageFlag] = useState(true);
   const [currentTransformation, currentTransformationSetter] =
     useState<string>("No transformation");
   const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-  function DisplayMain() {
+  function onDisplayMain() {
     setCurrentImageBase64(mainImageBase64);
+  }
+  function GoBackOneStep() {
+    setCurrentImageBase64(lastImage);
+    console.log(lastImage);
   }
   async function fileto64(file: File) {
     let reader = new FileReader();
@@ -49,6 +54,7 @@ const MainPage = () => {
       let base64 = reader.result as string;
       setCurrentImageBase64(base64);
       setMainImageBase64(base64);
+      setLastImage(base64);
     };
   }
   function handleUserImageInput() {
@@ -62,7 +68,6 @@ const MainPage = () => {
         let file = files[0];
         fileto64(file);
       }
-      // Do something with the selected file
     };
     input.click();
   }
@@ -87,6 +92,7 @@ const MainPage = () => {
       const image64 = convertImageToBase64(image);
       setMainImageBase64(image64);
       setCurrentImageBase64(image64);
+      setLastImage(image64);
       console.log("Im loading");
     };
     setPracticeImageFlag(false);
@@ -130,6 +136,9 @@ const MainPage = () => {
           console.log(response.status);
           const data = await response.json();
           const image_data = data.image;
+          if (lastImage != currentImageBase64) {
+            setLastImage(currentImageBase64);
+          }
           setCurrentImageBase64(image_data);
           setLoading(false);
         }
@@ -155,14 +164,6 @@ const MainPage = () => {
       return true;
     }
   };
-  async function onClickMain() {
-    if (transformationSelected()) {
-      let requestbody = giveRequestBody(false);
-      runRequest(requestbody);
-    } else {
-      setOffAlert("No transformation selected!");
-    }
-  }
 
   async function onClickCurrent() {
     if (transformationSelected()) {
@@ -180,9 +181,9 @@ const MainPage = () => {
         onSecondChange={setSecondParam}
         onThirdChange={setThirdParam}
         onTransformCurrent={onClickCurrent}
-        onTransformMain={onClickMain}
+        onDisplayMain={onDisplayMain}
         onTransformationTypeChange={currentTransformationSetter}
-        onDisplayMain={DisplayMain}
+        GoBackOneStep={GoBackOneStep}
         handleUserImageInput={handleUserImageInput}
         currentTransformation={currentTransformation}
         transformationChange={transformationChange}

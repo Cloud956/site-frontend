@@ -180,9 +180,9 @@ interface Props {
   onSecondChange: (int: number) => void;
   onThirdChange: (int: number) => void;
   onTransformationTypeChange: (str: string) => void;
-  onTransformMain: () => void;
-  onTransformCurrent: () => void;
   onDisplayMain: () => void;
+  onTransformCurrent: () => void;
+  GoBackOneStep: () => void;
   handleUserImageInput: () => void;
   currentTransformation: string;
   transformationChange: boolean;
@@ -194,9 +194,9 @@ const LeftPanel = ({
   onSecondChange,
   onThirdChange,
   onTransformationTypeChange,
-  onTransformMain,
-  onTransformCurrent,
   onDisplayMain,
+  onTransformCurrent,
+  GoBackOneStep,
   handleUserImageInput,
   currentTransformation,
   transformationChange,
@@ -279,25 +279,43 @@ const LeftPanel = ({
         >
           <Item>
             <Stack spacing={1}>
-              <MyButton
-                text={"Transform the current image"}
+              <Button
+                style={{ maxHeight: "4vh", minWidth: "30px", minHeight: "4vh" }}
                 onClick={onTransformCurrent}
-                mainColor={true}
-              ></MyButton>
-              <MyButton
-                text={"Transform the main image"}
-                onClick={onTransformMain}
-                mainColor={true}
-              ></MyButton>
-              <MyButton
-                text={"Display the main image"}
+                color={"success"}
+                sx={{ boxShadow: 8 }}
+                variant="contained"
+              >
+                <span style={{ fontSize: "1.5vh" }}>
+                  Transform the main image
+                </span>
+              </Button>
+              <Button
+                style={{ maxHeight: "4vh", minWidth: "30px", minHeight: "4vh" }}
+                onClick={GoBackOneStep}
+                color={"warning"}
+                sx={{ boxShadow: 8 }}
+                variant="contained"
+              >
+                <span style={{ fontSize: "1.5vh" }}>
+                  Revert to the last image
+                </span>
+              </Button>
+              <Button
+                style={{ maxHeight: "4vh", minWidth: "30px", minHeight: "4vh" }}
                 onClick={onDisplayMain}
-                mainColor={false}
-              ></MyButton>
+                color={"primary"}
+                sx={{ boxShadow: 8 }}
+                variant="contained"
+              >
+                <span style={{ fontSize: "1.5vh" }}>
+                  Display the main image
+                </span>
+              </Button>
             </Stack>
           </Item>
         </Box>
-        <Box sx={{ width: "100%", height: "15vh" }}>
+        <Box sx={{ width: "100%", height: "5vh" }}>
           <Item>
             <Button
               endIcon={
@@ -308,7 +326,7 @@ const LeftPanel = ({
               variant="outlined"
               onClick={handleUserImageInput}
             >
-              Upload a new image!
+              <span style={{ fontSize: "1.5vh" }}> Upload a new image!</span>
             </Button>
           </Item>
         </Box>

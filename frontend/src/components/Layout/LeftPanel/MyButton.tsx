@@ -3,19 +3,29 @@ import Button from "@mui/material/Button";
 interface Props {
   text: string;
   onClick: () => void;
-  mainColor: boolean;
+  mainColor: number;
 }
 const MyButton = ({ text, onClick, mainColor }: Props) => {
-  const color = mainColor ? "primary" : "secondary";
+  let color = "primary";
+  if (mainColor == 0) {
+    color = "success";
+  } else {
+    if (mainColor == 1) {
+      color = "warning";
+    } else {
+      color = "primary";
+    }
+  }
+
   return (
     <>
-      <Button style={{maxHeight: '4vh', minWidth: '30px', minHeight: '4vh'}}
+      <Button
+        style={{ maxHeight: "4vh", minWidth: "30px", minHeight: "4vh" }}
         onClick={onClick}
-        color={color}
         sx={{ boxShadow: 8 }}
         variant="contained"
       >
-        {text}
+        <span style={{ fontSize: "1.5vh" }}> {text}</span>
       </Button>
     </>
   );
