@@ -85,6 +85,11 @@ let TextMap = new Map<string, string>([
   Please select below numerical factors for the edge detection strength, number of colors(X) and edge outline strength. Due to the nature of the algorithm, on grayscale images it will reduce the number of colors to X, while on colored\
   images it will reduce it to X*X*X. ",
   ],
+   [
+    "Vertical and horizontal translation",
+    "Applies a vertical and horizontal translation, essentially moving the image to the sides. Will cut out part of the image in the process. \
+  Please select below the number of pixels for the horizontal and vertical translation.",
+  ],
   [
     "Salt&Pepper noise",
     "Applies salt and pepper noise to the image. Select below a number X, where 1/X will be the chance for noise to appear on each pixel.",
