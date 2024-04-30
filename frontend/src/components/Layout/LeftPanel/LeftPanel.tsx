@@ -287,7 +287,7 @@ const LeftPanel = ({
                 variant="contained"
               >
                 <span style={{ fontSize: "1.5vh" }}>
-                  Transform the main image
+                  Transform the current image
                 </span>
               </Button>
               <Button
