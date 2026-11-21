@@ -1,19 +1,23 @@
-FROM node:20-alpine3.17
 
-# set working directory
+# Stage 1: Build the Vite application
+FROM node:24-alpine AS builder
+
 WORKDIR /app
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json package-lock.json ./
 
-# install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm i
+RUN npm ci
+
+COPY . .
+
+RUN npm run build
 
 
-# add app
-COPY . ./
+# Stage 2: Production server
+FROM nginxinc/nginx-unprivileged:stable-alpine
 
-# start app
-CMD ["npm", "run", "dev"]
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+EXPOSE 8080
+
+CMD ["nginx", "-g", "daemon off;"]
